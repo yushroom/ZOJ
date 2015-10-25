@@ -40,30 +40,37 @@ struct Number {
 bool is_cyclic(const Number& n1, const Number& n2) {
 	if (n1.size() != n2.size())
 		return false;
-	int size = n1.szie();
-	for (int i = 0; i < size; ++i) {
-		for (int j = i; j)
+	int size = n1.size();
+	for (int j = 0; j < size; ++j) {
+		int i = 0;
+		for (i = 0; i < size; ++i) {
+			if (n1.d[i] != n2.d[(j+i) % size])
+				break;
+		}
+		if (i == size)
+			return true;
 	}
+	return false;
 }
 
 int main()
 {
 	string str;
 	while (cin >> str && str.size() > 0) {
-		cout << str << endl;
+		//cout << str << endl;
 		Number num;
 		num.from_string(str);
 		int n = str.size();
-		for (int i = 1; i <= n; ++i) {
+		for (int i = 2; i <= n; ++i) {
 			Number n2 = num * i;
-			cout << n2 << endl;
-			if (is_cyclic())
-				goto cyclic;
+			//cout << n2 << endl;
+			if (!is_cyclic(num, n2))
+				goto not_cyclic;
 		}
-
+		cout << str << " is cyclic\n";
 		continue;
-cyclic:
-		cout << ' is cyclic\n';
+not_cyclic:
+		cout << str << " is not cyclic\n";
 	}
 	return 0;
 }
